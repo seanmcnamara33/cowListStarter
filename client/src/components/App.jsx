@@ -61,13 +61,11 @@ class App extends React.Component {
   }
 
   onCowNameClick(event, index) {
-    // this.emptySelectedCow();
     var selectedCow = this.state.cowList[index];
-    console.log(selectedCow);
     this.state.selectedCow = [];
     this.state.selectedCow.push(selectedCow);
     this.setState({
-      selectedCow: this.state.selectedCow
+      selectedCow: this.state.selectedCow,
     })
   }
 
@@ -85,6 +83,9 @@ class App extends React.Component {
         <CowList cowList={this.state.cowList} onCowNameClick={this.onCowNameClick.bind(this)}/>
       </div>
     );
+  }
+  componentDidMount() {
+    this.getCows();
   }
 }
 
