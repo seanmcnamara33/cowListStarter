@@ -1,3 +1,4 @@
+const {readAll, doesItExist, inputCow} = require('../database/mysql/index.js')
 const express = require('express');
 const readline = require('readline').createInterface({
   input: process.stdin,
@@ -10,12 +11,18 @@ const path = require('path');
 const PORT = 3000;
 const app = express();
 
+app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-app.get('/', (req, res) => {
-  res.send('Hello from the server!');
+app.get('/api/cows', async (req, res) => {
+  var cows = await readAll();
+  res.status(200).send(cows);
 })
 
+app.post('/api/cows', async (req, res) => {
+  var result = await inputCow(req.body);
+  res.status(201).send(result);
+})
 app.listen(PORT, () => {
   console.log(`Server listening at localhost:${3000}!`);
     readline.question(`Choose your db: (mongo or mysql)\n>>>>>`, choice=>{
